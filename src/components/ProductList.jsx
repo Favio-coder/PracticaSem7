@@ -1,6 +1,6 @@
-import { ProductCard } from "./ProductCard";
+import { MemoizedProductCard } from "./ProductCard";
 
-export function ProductList({ products, favorites, onToggleFavorite }) {
+export function ProductList({ products, favoriteIds, onAddFavorite, onRemoveFavorite }) {
   if (products.length === 0) {
     return <p className="empty-state">No se encontraron productos</p>;
   }
@@ -9,10 +9,11 @@ export function ProductList({ products, favorites, onToggleFavorite }) {
     <ul className="product-grid" role="list">
       {products.map((product) => (
         <li key={product.id}>
-          <ProductCard
+          <MemoizedProductCard
             product={product}
-            isFavorite={favorites.has(product.id)}
-            onToggleFavorite={onToggleFavorite}
+            isFavorite={favoriteIds.has(product.id)}
+            onAddFavorite={onAddFavorite}
+            onRemoveFavorite={onRemoveFavorite}
           />
         </li>
       ))}
