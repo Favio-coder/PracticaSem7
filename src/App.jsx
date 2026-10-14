@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { ThemeProvider } from "./context";
+import { useTheme } from "./context";
 import { SearchInput } from "./components/SearchInput";
 import { ProductList } from "./components/ProductList";
+import { ThemeToggle } from "./components/ThemeToggle";
 import "./App.css";
 
 const API_URL = "https://dummyjson.com/products?limit=20";
 
-function App() {
+function AppContent() {
   const [searchTerm, setSearchTerm] = useState("");
   const [favorites, setFavorites] = useState(new Set());
   const [independentCount, setIndependentCount] = useState(0);
@@ -79,6 +82,7 @@ function App() {
       <header className="app-header">
         <h1>Explorador de Productos</h1>
         <div className="header-actions">
+          <ThemeToggle />
           <button
             className="counter-btn"
             onClick={() => setIndependentCount((c) => c + 1)}
@@ -104,6 +108,24 @@ function App() {
         />
       )}
     </main>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <ThemedApp />
+    </ThemeProvider>
+  );
+}
+
+function ThemedApp() {
+  const { theme } = useTheme();
+
+  return (
+    <div className={`app-root ${theme}`}>
+      <AppContent />
+    </div>
   );
 }
 
